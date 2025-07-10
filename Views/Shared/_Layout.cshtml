@@ -1,0 +1,73 @@
+﻿@inject UserManager<MedServicesUser> userManager
+@inject SignInManager<MedServicesUser> signInManager
+
+@model ModelBase
+
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Forum Engine | @ViewBag.Title</title>
+	<link rel="stylesheet" type="text/css" href="~/css/SiteStyles.css" asp-append-version="true" />
+	@RenderSection("Stylesheets", false)
+	@RenderSection("Styles", false)
+</head>
+<body class="layout-body">
+	<nav id="main-menu" class="main-menu">
+		<ul id="main-menu-list">
+			<li>
+				<div>
+					<span>&#xE80F</span>
+					<a href="/Home/Start">Home</a>
+				</div>
+			</li>
+			<li>
+				<form class="site-search-form" method="post" action="Home/Search" novalidate>
+					<label id="site-search-label" class="site-search-label">
+						&#xE71E
+						<input type="search" id="site-search-input" placeholder="Search..." />
+					</label>
+				</form>
+			</li>
+			<li>
+				<div>
+					<span>&#xE897</span>
+					<a href="/Home/Help">Help</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<span>&#xE946</span>
+					<a href="/Home/About">About</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<a href="/UserAccount/Login">Log in</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<a href="/UserAccount/Register">Register</a>
+				</div>
+			</li>
+		</ul>
+	</nav>
+	<div class="layout-content root">
+		@if(!string.IsNullOrWhiteSpace(ViewBag.Title))
+		{
+			<h1 class="layout-content title">@ViewBag.Title</h1>
+		}
+		<div class="layout-content body">
+			@RenderBody()
+		</div>
+	</div>
+	<script id="console" src="~/src/console.js"></script>
+	<script id="jquery-min" src="~/lib/jquery/jquery.min.js"></script>
+	<script id="extensions" src="~/src/extensions.js" asp-append-version="true"></script>
+	@RenderSection("Scripts", false)
+</body>
+</html>

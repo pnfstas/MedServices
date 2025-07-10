@@ -1,0 +1,374 @@
+﻿h1
+{
+    font-size: 32px;
+    font-weight: bold;
+    color: black;
+}
+
+body.layout-body
+{
+    box-sizing: border-box;
+    width: fit-content;
+    height: fit-content;
+    margin: 0px;
+    padding: 10px;
+    border: solid 2px black;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: ButtonFace;
+    text-align: left;
+    font-size: 20px;
+    font-weight: normal;
+    color: black;
+}
+
+nav.main-menu
+{
+    flex: initial;
+    height: 65px;
+}
+
+    nav.main-menu > ul
+    {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        height: 65px;
+        padding: 0px;
+        margin: 0px;
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+        list-style: none;
+    }
+
+        nav.main-menu > ul > li
+        {
+            flex: initial;
+            box-sizing: content-box;
+            width: fit-content;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            background-color: ButtonFace;
+        }
+
+            nav.main-menu > ul > li > div
+            {
+                flex-shrink: 0;
+                box-sizing: border-box;
+                width: 150px;
+                height: 65px;
+                border: 10px outset lightgreen;
+                border-radius: 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+                nav.main-menu > ul > li > div:has(:hover)
+                {
+                    border: 10px outset lightseagreen;
+                }
+
+                nav.main-menu > ul > li > div > span
+                {
+                    flex: 0 0 30px;
+                    text-align: center;
+                    font-family: 'Segoe MDL2 Assets';
+                    font-size: 30px;
+                    display: flex;
+                    place-items: center stretch;
+                }
+
+                nav.main-menu > ul > li > div > a
+                {
+                    flex: initial;
+                    width: fit-content;
+                    text-align: center;
+                    display: flex;
+                    place-items: center stretch;
+                }
+
+                nav.main-menu > ul > li > div > img
+                {
+                    flex: 0 0 30px;
+                    width: 90%;
+                    height: 90%;
+                    object-fit: contain;
+                }
+
+            nav.main-menu > ul > li > form.site-search-form
+            {
+                flex: 1 0 auto;
+                box-sizing: border-box;
+                width: fit-content;
+                height: 65px;
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                justify-content: start;
+            }
+
+                nav.main-menu > ul > li > form.site-search-form > label.site-search-label
+                {
+                    flex: 1 0 auto;
+                    box-sizing: border-box;
+                    min-width: 300px;
+                    width: fit-content;
+                    min-height: 65px;
+                    padding-left: 10px;
+                    border: 1px solid black;
+                    border-radius: 10px;
+                    background-color: Window;
+                    font-family: 'Segoe MDL2 Assets';
+                    font-size: 30px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: stretch;
+                }
+
+                    nav.main-menu > ul > li > form.site-search-form > label.site-search-label > input[type=search]
+                    {
+                        flex: 1 0 240px;
+                        align-self: stretch;
+                        width: 240px;
+                        margin-left: 10px;
+                        border-style: none;
+                        border-radius: 0;
+                        font-family: revert-layer;
+                        font-size: revert-layer;
+                        background-color: transparent;
+                        display: flex;
+                        text-align: left;
+                    }
+
+div.layout-content
+{
+    flex: auto;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    place-items: stretch stretch;
+}
+
+    div.layout-content.root
+    {
+        flex: 1 0 auto;
+        box-sizing: border-box;
+        margin-top: 10px;
+    }
+
+form.account-form
+{
+    flex: initial;
+    box-sizing: border-box;
+    min-width: 600px;
+    height: fit-content;
+    margin: 0px;
+    padding: 10px;
+    display: flex;
+    justify-self: flex-start;
+    flex-direction: column;
+    justify-items: stretch;
+    justify-content: start;
+}
+
+    form.account-form fieldset.authentication-fieldset
+    {
+        flex: initial;
+        height: fit-content;
+        justify-self: stretch;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    form.account-form fieldset.two-factor-fieldset,
+    form.account-form fieldset.profile-fieldset
+    {
+        flex: initial;
+        height: fit-content;
+        justify-self: stretch;
+        box-sizing: border-box;
+        margin: 15px 0px 0px 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    form.account-form fieldset.two-factor-method-fieldset
+    {
+        flex: initial;
+        height: fit-content;
+        justify-self: stretch;
+        box-sizing: border-box;
+        margin: 15px 0px 15px 0px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    form.account-form div.account-property-div
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: 100%;
+        height: 35px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    form.account-form label.account-property-label
+    {
+        flex: initial;
+        box-sizing: border-box;
+        min-width: 260px;
+        height: fit-content;
+        font-weight: normal;
+        display: flex;
+    }
+
+    form.account-form label.checkbox-label,
+    form.account-form label.radio-label
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: fit-content;
+        height: fit-content;
+        font-weight: normal;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    form.account-form input.account-property-input
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: 100%;
+        height: 25px;
+        margin-left: 10px;
+        display: flex;
+    }
+
+    form.account-form input.account-property-checkbox
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: 25px;
+        height: 25px;
+        margin-left: 10px;
+        display: flex;
+    }
+
+    form.account-form input.two-factor-method-radio
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        display: flex;
+    }
+
+    form.account-form div.confirm-contact-div
+    {
+        flex: initial;
+        box-sizing: border-box;
+        width: 100%;
+        height: fit-content;
+        margin: 10px 0px 5px 0px;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        align-items: center;
+        justify-items: center;
+        justify-content: center;
+    }
+
+    form.account-form div#two-factor-email-div,
+    form.account-form div#two-factor-phone-div,
+    form.account-form div#confirm-email-div,
+    form.account-form div#confirm-phone-div
+    {
+        display: none;
+    }
+
+    form.account-form:has( input#enable-two-factor-checkbox:checked):has( input#two-factor-by-email-radio:checked) div#two-factor-email-div,
+    form.account-form:has( input#enable-two-factor-checkbox:checked):has( input#two-factor-by-phone-radio:checked) div#two-factor-phone-div
+    {
+        flex: initial;
+        display: flex;
+    }
+
+    form.account-form:has( input#enable-two-factor-checkbox:checked):has( input#two-factor-by-email-radio:checked) div#confirm-email-div,
+    form.account-form:has( input#enable-two-factor-checkbox:checked):has( input#two-factor-by-phone-radio:checked) div#confirm-phone-div
+    {
+        flex: initial;
+        display: grid;
+    }
+
+    form.account-form input.confirm-button
+    {
+        grid-column: 1 / 2;
+        box-sizing: border-box;
+        min-width: 170px;
+        min-height: 40px;
+        border: 4px outset black;
+        border-radius: 10px;
+        font-weight: bold;
+        display: flex;
+    }
+
+    form.account-form span.confirm-state-span
+    {
+        grid-column: 2 / 3;
+        box-sizing: border-box;
+        width: fit-content;
+        height: fit-content;
+        font-weight: bold;
+        color: red;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    form.account-form div.footer-div
+    {
+        flex: initial;
+        height: fit-content;
+        justify-self: stretch;
+        box-sizing: border-box;
+        margin: 15px 0px 0px 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    form.account-form input.footer-button
+    {
+        flex: initial;
+        box-sizing: border-box;
+        min-width: 100px;
+        min-height: 40px;
+        margin: 0px 15px 0px 15px;
+        border: 4px outset black;
+        border-radius: 10px;
+        font-weight: bold;
+        display: flex;
+    }

@@ -1,0 +1,89 @@
+﻿@using Newtonsoft.Json
+@{
+	ViewBag.Title = "Registration";
+}
+
+@section Scripts
+{
+	<script id="user-account" src="~/src/user-account.js" asp-append-version="true"></script>
+}
+
+<form class="account-form register" method="post" action="/UserAccount/ProcessRegister" data-model="@(JsonConvert.SerializeObject(Model as AccountViewModel))"
+	  data-display-names="@((Model as AccountViewModel).DisplayNamesJson)" data-error-descriptions="@((Model as AccountViewModel).ErrorDescriptionsJson)">
+	<fieldset class="authentication-fieldset">
+		<legend>Authentication</legend>
+		<div id="login-div" class="account-property-div">
+			<label id="login-label" class="account-property-label" for="login-input">User name, E-Mail or Phone number</label>
+			<input id="login-input" class="account-property-input" type="text" name="UserName" required />
+		</div>
+		<div id="password-div" class="account-property-div">
+			<label id="password-label" class="account-property-label" for="password-input">Password</label>
+			<input id="password-input" class="account-property-input" type="password" name="Password" required />
+		</div>
+		<div id="confirm-password-div" class="account-property-div">
+			<label id="confirm-password-label" class="account-property-label" for="confirm-password-input">Password confirmation</label>
+			<input id="confirm-password-input" class="account-property-input" type="password" name="PasswordConfirmation" required />
+		</div>
+	</fieldset>
+	<fieldset class="two-factor-fieldset">
+		<legend>Two factor authentication</legend>
+		<label id="enable-two-factor-label" class="checkbox-label">
+			Enable two factor authentication
+			<input id="enable-two-factor-checkbox" class="account-property-checkbox" type="checkbox" name="TwoFactorEnabled" />
+		</label>
+		<fieldset class="two-factor-method-fieldset">
+			<legend>Two factor method</legend>
+			<label id="two-factor-by-email-label" class="radio-label">
+				<input id="two-factor-by-email-radio" class="two-factor-method-radio" name="TwoFactorMethod" type="radio" />
+				by e-mail
+			</label>
+			<label id="two-factor-by-phone-label" class="radio-label">
+				<input id="two-factor-by-phone-radio" class="two-factor-method-radio" name="TwoFactorMethod" type="radio" />
+				by phone number
+			</label>
+		</fieldset>
+		<div id="two-factor-email-div" class="account-property-div">
+			<label id="two-factor-email-label" class="account-property-label" for="two-factor-email-input">E-Mail</label>
+			<input id="two-factor-email-input" class="account-property-input" type="email" name="Email" />
+		</div>
+		<div id="two-factor-phone-div" class="account-property-div">
+			<label id="two-factor-phone-label" class="account-property-label" for="two-factor-phone-input">Phone number</label>
+			<input id="two-factor-phone-input" class="account-property-input" type="tel" name="PhoneNumber" />
+		</div>
+		<div id="confirm-email-div" class="confirm-contact-div">
+			<input id="confirm-email-button" class="confirm-button" type="button" value="Confirm E-Mail" data-contact-type="EMail" />
+			<span id="email-confirm-state-span" class="confirm-state-span">
+				@((Model as AccountViewModel).GetContactConfirmationStateString(ContactType.EMail))
+			</span>
+		</div>
+		<div id="confirm-phone-div" class="confirm-contact-div">
+			<input id="confirm-phone-button" class="confirm-button" type="button" value="Confirm phone number" data-contact-type="PhoneNumber" />
+			<span id="phone-confirm-state-span" class="confirm-state-span">
+				@((Model as AccountViewModel).GetContactConfirmationStateString(ContactType.PhoneNumber))
+			</span>
+		</div>
+	</fieldset>
+	<fieldset class="profile-fieldset">
+		<legend>User profile</legend>
+		<div id="full-name-div" class="account-property-div">
+			<label id="full-name-label" class="account-property-label" for="full-name-input">Full name</label>
+			<input id="full-name-input" class="account-property-input" type="text" name="Name" />
+		</div>
+		<div id="esia-login-div" class="account-property-div">
+			<label id="esia-login-label" class="account-property-label" for="esia-login-input">ESIA login</label>
+			<input id="esia-login-input" class="account-property-input" type="text" name="EsiaLogin" />
+		</div>
+		<div id="esia-password-div" class="account-property-div">
+			<label id="esia-password-label" class="account-property-label" for="esia-password-input">ESIA password</label>
+			<input id="esia-password-input" class="account-property-input" type="password" name="EsiaPassword" required />
+		</div>
+		<div id="esia-confirm-password-div" class="account-property-div">
+			<label id="esia-confirm-password-label" class="account-property-label" for="esia-confirm-password-input">ESIA password confirmation</label>
+			<input id="esia-confirm-password-input" class="account-property-input" type="password" name="EsiaPasswordConfirmation" required />
+		</div>
+	</fieldset>
+	<div id="footer-div" class="footer-div">
+		<input id="submit-button" class="footer-button" type="submit" value="Register" />
+		<input id="close-button" class="footer-button" type="button" value="Cancel" />
+	</div>
+</form>
