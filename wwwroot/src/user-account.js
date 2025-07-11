@@ -1,10 +1,14 @@
-﻿class ContactType extends Enum
+﻿class TwoFactorMethod extends Enum
+{
+    static TwoFactorByEmail = 0;
+    static TwoFactorByPhoneNumber = 1;
+}
+class ContactType extends Enum
 {
     static EMail = 0;
     static PhoneNumber = 1;
 }
-var jsonModel = "{}";
-var model = {};
+var elemForm = null;
 function validateInputElement(element, errorMessages)
 {
 	if(element instanceof HTMLInputElement)
@@ -23,8 +27,9 @@ function validateInputElement(element, errorMessages)
 		element.setCustomValidity(validationMessage);
 	}
 }
-function updateModel()
+function getModelFromForm()
 {
+    let model = {};
     for(const element of document.querySelectorAll("input.account-property-input"))
     {
         if(element instanceof HTMLInputElement && ObjectExtensions.isNotEmptyString(element.name))
@@ -40,25 +45,51 @@ function updateModel()
     if(checkbox.checked)
     {
         radio = document.querySelector("input#two-factor-by-phone-radio");
-        model.TwoFactorMethod = radio.checked ? "TwoFactorByPhoneNumber" : "TwoFactorByEmail";
+        model.TwoFactorMethod = TwoFactorMethod.getValueByKey(radio.checked ? "TwoFactorByPhoneNumber" : "TwoFactorByEmail");
+    }
+    return model;
+}
+async function confirmContact1(event)
+{
+    if(event.target instanceof HTMLInputElement)
+    {
+        let model = getModelFromForm();
+        if(Object.keys(model)?.length > 0)
+        {
+            const urlAction = window.location.origin + "/UserAccount/ConfirmContact";
+            const jqXHR = $.ajax({
+                method: "POST",
+                url: urlAction,
+                data: { model: model }
+            });
+            await jqXHR?.then(
+                async function(data, textStatus, jqxhr)
+                {
+                    alert(`request to ${urlAction} is successed`);
+                },
+                function(jqxhr, textStatus, errorThrown)
+                {
+                    alert(`request to ${urlAction} is failed; status: ${textStatus}; error: ${errorThrown}`);
+                });
+
+        }
     }
 }
 async function confirmContact(event)
 {
     if(event.target instanceof HTMLInputElement)
     {
-        updateModel();
-        const contactTypeName = event.target.dataset["contactType"];
-        //const model = JSON.parse(jsonModel);
-        if(Object.keys(model).length > 0 && ContactType.containsKey(contactTypeName))
+        let formData = new FormData(elemForm);
+        formData.set("TwoFactorEnabled", formData.get("TwoFactorEnabled") === "on" ? "true" : "false");
+        if([...formData?.keys()]?.length > 0)
         {
-            const contactType = ContactType.getValueByKey(contactTypeName);
             const urlAction = window.location.origin + "/UserAccount/ConfirmContact";
             const jqXHR = $.ajax({
                 method: "POST",
                 url: urlAction,
-                data: { model: model, contactType: contactType },
-                contentType: "application/json; charset=utf-8"
+                data: formData,
+                processData: false,
+                contentType: false
             });
             await jqXHR?.then(
                 async function(data, textStatus, jqxhr)
@@ -75,9 +106,9 @@ async function confirmContact(event)
 }
 window.addEventListener("load", async function() 
 {
-    let elemForm = document.querySelector("form.account-form");
-    var displayNames = {};
-    var errorDescriptions = {};
+    elemForm = document.querySelector("form.account-form");
+    let displayNames = {};
+    let errorDescriptions = {};
     if(elemForm instanceof HTMLFormElement)
     {
         jsonModel = elemForm.dataset["model"];

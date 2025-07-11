@@ -1,6 +1,7 @@
 ﻿using MedServices.Data;
 using MedServices.Models;
 using MedServices.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -72,11 +73,12 @@ namespace MedServices.Controllers
             return actionResult;
         }
         [HttpPost]
-        public async Task<IActionResult> ConfirmContact(AccountViewModel model, ContactType contactType)
+        public async Task<IActionResult> ConfirmContact(IFormCollection collection)
         {
-            if(!string.IsNullOrWhiteSpace(model?.UserName))
+            AccountViewModel model = new AccountViewModel(collection);
+            if(!string.IsNullOrWhiteSpace(model?.UserName) && model.TwoFactorEnabled)
             {
-                if(contactType == ContactType.PhoneNumber)
+                if(model.TwoFactorMethod == TwoFactorMethod.TwoFactorByPhoneNumber)
                 {
                     if(await PhoneConfirmationService.SendVerificationCode(model))
                     {

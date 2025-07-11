@@ -1,5 +1,6 @@
 ﻿using MedServices.Models;
 using MedServices.Startup;
+using Microsoft.AspNetCore.Http;
 using NETCore.MailKit.Infrastructure.Internal;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
@@ -75,6 +76,59 @@ namespace MedServices.Extensions
                     curTarget = curTargetPropInfo.SetMethod.IsStatic ? null : target;
                     curValue = curSourcePropInfo.GetValue(curSource);
                     curTargetPropInfo.SetValue(curTarget, curValue);
+                }
+            }
+        }
+        public static void CopyPropertiesFromFormCollection(this object trgObject, IFormCollection? srcCollection, string? excludes = null)
+        {
+            if(srcCollection?.Count > 0)
+            {
+                IEnumerable<string> arrExcludes = excludes?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                Dictionary<string, PropertyInfo> dictTargetPropInfo = new Dictionary<string, PropertyInfo>
+                    (from CurPropInfo in trgObject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                     where CurPropInfo?.SetMethod?.IsPublic == true 
+                        //&& CurPropInfo.SetMethod.IsFinal 
+                        && arrExcludes?.Contains(CurPropInfo.Name) != true
+                     select new KeyValuePair<string, PropertyInfo>(CurPropInfo.Name, CurPropInfo)
+                    );
+                IEnumerable<string> sourceKeys =
+                    from CurKey in srcCollection.Keys
+                    where dictTargetPropInfo.ContainsKey(CurKey)
+                    select CurKey;
+                PropertyInfo curTargetPropInfo = null;
+                object curTarget = null;
+                object objValue = null;
+                string strValue = null;
+                bool isConverted = false;
+                foreach(string curKey in sourceKeys)
+                {
+                    curTargetPropInfo = dictTargetPropInfo[curKey];
+                    curTarget = curTargetPropInfo.SetMethod.IsStatic ? null : trgObject;
+                    strValue = srcCollection[curKey].ToString();
+                    isConverted = false;
+                    if(curTargetPropInfo.PropertyType == typeof(string))
+                    {
+                        objValue = strValue;
+                        isConverted = true;
+                    }
+                    else if(curTargetPropInfo.PropertyType.IsEnum)
+                    {
+                        isConverted = Enum.TryParse(curTargetPropInfo.PropertyType, strValue, out objValue);
+                    }
+                    else
+                    {
+                        TypeConverter typeConverter = TypeDescriptor.GetConverter(curTargetPropInfo.PropertyType);
+                        if(typeConverter.CanConvertFrom(typeof(string)))
+                        {
+                            //objValue = Convert.ChangeType(strValue, curTargetPropInfo.PropertyType);
+                            objValue = typeConverter.ConvertFromString(strValue);
+                            isConverted = true;
+                        }
+                    }
+                    if(isConverted)
+                    {
+                        curTargetPropInfo.SetValue(curTarget, objValue);
+                    }
                 }
             }
         }

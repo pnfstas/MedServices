@@ -1,5 +1,6 @@
 ﻿using MedServices.Extensions;
 using MedServices.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Newtonsoft.Json;
 using System.ComponentModel;
@@ -142,12 +143,20 @@ namespace MedServices.Models
                 EsiaPassword = dataPropectionService?.Unprotect(user.EsiaProtectedPassword);
             }
         }
+        public void FillFromFormCollection(IFormCollection collection)
+        {
+            this.CopyPropertiesFromFormCollection(collection);
+        }
         public AccountViewModel()
         {
         }
         public AccountViewModel(MedServicesUser? user = null)
         {
             FillFromUser(user);
+        }
+        public AccountViewModel(IFormCollection? collection = null)
+        {
+            FillFromFormCollection(collection);
         }
     }
 
